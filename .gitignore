@@ -1,0 +1,31 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Environment variables
+.env
+
+# Uploaded files
+uploads/
+UPLOAD_DIR/
+*.upload
+
+# FAISS vectorstore (locally saved vectors)
+vectorstore/
+
+# VSCode settings (if you use it)
+.vscode/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Virtual environment folders
+venv/
+env/
+frontend/my-app/node_modules/

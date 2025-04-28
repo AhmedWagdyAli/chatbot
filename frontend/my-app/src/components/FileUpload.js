@@ -26,14 +26,6 @@ function FileUpload() {
       const response = await fetch('http://127.0.0.1:8000/upload', {
         method: 'POST',
         body: formData,
-        headers: {
-          // Add headers if needed
-        },
-        onUploadProgress: (progressEvent) => {
-          if (progressEvent.total) {
-            setUploadProgress(Math.round((progressEvent.loaded * 100) / progressEvent.total));
-          }
-        }
       });
 
       if (!response.ok) {
@@ -50,24 +42,76 @@ function FileUpload() {
   };
 
   return (
-    <div>
-      <h1>Upload a File</h1>
-      <input type="file" onChange={handleFileChange} />
-      <button onClick={handleUpload} disabled={uploading}>
+    <div style={styles.container}>
+      <h1 style={styles.title}>Upload a File</h1>
+      
+      <input 
+        type="file" 
+        onChange={handleFileChange} 
+        style={styles.input}
+      />
+      
+      <button 
+        onClick={handleUpload} 
+        disabled={uploading} 
+        style={{ 
+          ...styles.button, 
+          backgroundColor: uploading ? '#ccc' : '#007BFF', 
+          cursor: uploading ? 'not-allowed' : 'pointer' 
+        }}
+      >
         {uploading ? 'Uploading...' : 'Upload File'}
       </button>
 
       {uploading && (
-        <div>
-          <progress value={uploadProgress} max="100"></progress>
+        <div style={styles.progressContainer}>
+          <progress value={uploadProgress} max="100" style={styles.progress}></progress>
           <p>{uploadProgress}%</p>
         </div>
       )}
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p style={styles.error}>{error}</p>}
     </div>
   );
 }
 
-export default FileUpload;
+const styles = {
+  container: {
+    maxWidth: '600px', // Match the width of the Chat component
+    margin: '50px auto',
+    padding: '20px',
+    border: '1px solid #eee',
+    borderRadius: '8px',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+    textAlign: 'center',
+    backgroundColor: '#fafafa',
+  },
+  title: {
+    marginBottom: '20px',
+    color: '#333',
+  },
+  input: {
+    marginBottom: '20px',
+    width: '100%',
+  },
+  button: {
+    padding: '10px 20px',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    fontSize: '16px',
+  },
+  progressContainer: {
+    marginTop: '20px',
+  },
+  progress: {
+    width: '100%',
+    height: '20px',
+  },
+  error: {
+    color: 'red',
+    marginTop: '15px',
+  },
+};
 
+export default FileUpload;

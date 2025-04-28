@@ -24,6 +24,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 UPLOAD_DIR = "./uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 os.makedirs("vectorstore", exist_ok=True)
@@ -34,17 +35,32 @@ embeddings = OpenAIEmbeddings(openai_api_key=os.environ["OPENAI_API_KEY"])
 
 
 def save_vectorstore(docs):
+    """Save a list of document chunks into a local FAISS vectorstore."""
     vectorstore = FAISS.from_documents(docs, embeddings)
     vectorstore.save_local("vectorstore")
 
 
 def get_vectorstore():
+    """Load the FAISS vectorstore from the local directory."""
     return FAISS.load_local(
         "vectorstore", embeddings, allow_dangerous_deserialization=True
     )
 
 
 def extract_text(file: UploadFile):
+    """Save the uploaded file locally and extract its textual content.
+
+    Supports `.txt` and `.pdf` file formats.
+
+    Args:
+        file (UploadFile): The uploaded file.
+
+    Returns:
+        List of Document objects containing the extracted text.
+
+    Raises:
+        ValueError: If the file type is unsupported.
+    """
     file_path = os.path.join(UPLOAD_DIR, file.filename)
     with open(file_path, "wb") as f:
         shutil.copyfileobj(file.file, f)
@@ -64,6 +80,14 @@ def extract_text(file: UploadFile):
 
 @app.post("/upload")
 async def upload(file: UploadFile = File(...)):
+    """API endpoint to upload a document, split it into chunks, and save it into a vectorstore.
+
+    Args:
+        file (UploadFile): The file uploaded by the user.
+
+    Returns:
+        JSON message indicating the number of chunks stored.
+    """
     print(f"Received file: {file.filename}")
     docs = extract_text(file)
     print(docs)
@@ -74,14 +98,20 @@ async def upload(file: UploadFile = File(...)):
 
 
 from math import sqrt
-
-
 import math
 
 
 @tool
 def calculator_tool(expression: str) -> str:
-    """Evaluates a simple mathematical expression and returns the result."""
+    """Evaluate a simple mathematical expression using the math library.
+
+    Args:
+        expression (str): The mathematical expression to evaluate.
+
+    Returns:
+        str: The result of the evaluation, rounded to two decimal places.
+            Returns an error message if evaluation fails.
+    """
     try:
         # Allow all functions inside math
         result = eval(expression, {"__builtins__": {}}, vars(math))
@@ -92,6 +122,17 @@ def calculator_tool(expression: str) -> str:
 
 @app.post("/chat")
 async def chat(query: str = Form(...)):
+    """API endpoint to handle a chat query.
+
+    It retrieves relevant context from the vectorstore, evaluates mathematical expressions
+    if needed, and generates a final answer using an OpenAI agent.
+
+    Args:
+        query (str): The user's query submitted via a form field.
+
+    Returns:
+        JSON response containing the generated answer.
+    """
     vectorstore = get_vectorstore()
     retriever = vectorstore.as_retriever()
 

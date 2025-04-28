@@ -3,6 +3,7 @@ import { useState } from 'react';
 function Chat() {
   const [message, setMessage] = useState('');
   const [response, setResponse] = useState('');
+  const [reasoning, setReasoning] = useState(''); // State for reasoning steps
   const [loading, setLoading] = useState(false);
 
   const sendMessage = async () => {
@@ -24,9 +25,11 @@ function Chat() {
 
       const data = await res.json();
       setResponse(data.response);
+      setReasoning(data.reasoning); // Set reasoning steps
     } catch (error) {
       console.error(error);
       setResponse('Failed to get a response.');
+      setReasoning('');
     } finally {
       setLoading(false);
     }
@@ -57,6 +60,13 @@ function Chat() {
           <p>{response}</p>
         </div>
       )}
+
+      {reasoning && (
+        <div style={styles.reasoningBox}>
+          <h4>Reasoning Steps:</h4>
+          <pre style={styles.reasoning}>{reasoning}</pre>
+        </div>
+      )}
     </div>
   );
 }
@@ -69,7 +79,7 @@ const styles = {
     backgroundColor: '#f9f9f9',
     borderRadius: '12px',
     boxShadow: '0 0 10px rgba(0,0,0,0.1)',
-    fontFamily: '"Inter", sans-serif'
+    fontFamily: '"Inter", sans-serif',
   },
   title: {
     textAlign: 'center',
@@ -108,7 +118,19 @@ const styles = {
     borderRadius: '8px',
     border: '1px solid #eee',
     marginTop: '1rem',
-  }
+  },
+  reasoningBox: {
+    backgroundColor: '#f4f4f4',
+    padding: '1rem',
+    borderRadius: '8px',
+    border: '1px solid #ddd',
+    marginTop: '1rem',
+    fontFamily: 'monospace',
+    whiteSpace: 'pre-wrap',
+  },
+  reasoning: {
+    color: '#555',
+  },
 };
 
 export default Chat;
