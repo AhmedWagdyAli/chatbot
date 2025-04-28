@@ -44,8 +44,9 @@ This project is a **chatbot application** that allows users to upload documents,
 ```bash
 git clone https://github.com/AhmedWagdyAli/chatbot.git
 ```
-### 2. activate the virtual enviornment
+### 2. create & activate the virtual enviornment
 ```bash
+python -m venv venv
 source venv/bin/activate
 ```
 
