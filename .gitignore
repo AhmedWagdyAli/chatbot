@@ -13,7 +13,7 @@ UPLOAD_DIR/
 *.upload
 
 # FAISS vectorstore (locally saved vectors)
-vectorstore/
+
 
 # VSCode settings (if you use it)
 .vscode/
