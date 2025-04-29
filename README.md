@@ -7,6 +7,7 @@ This project is a **chatbot application** that allows users to upload documents,
 ## Features
 
 1. **File Upload**:
+
    - Users can upload `.txt` or `.pdf` files.
    - The backend processes the files, extracts text, and stores it in a vectorstore for efficient retrieval.
 
@@ -20,12 +21,14 @@ This project is a **chatbot application** that allows users to upload documents,
 ## Tech Stack
 
 ### Backend:
+
 - **FastAPI**: REST API framework.
 - **LangChain**: For document loading, splitting, embeddings, and QA chains.
 - **FAISS**: Vector-based document retrieval.
 - **OpenAI**: For LLM-based reasoning and answering.
 
 ### Frontend:
+
 - **React**: For building the user interface.
 
 ---
@@ -41,38 +44,51 @@ This project is a **chatbot application** that allows users to upload documents,
 ## Setup Instructions
 
 ### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/AhmedWagdyAli/chatbot.git
 ```
+
 ### 2. create & activate the virtual enviornment
+
 ```bash
 python -m venv venv
 source venv/bin/activate
 ```
 
 ### 3. install requirements
+
 ```bash
 cd backend
 pip install -r requirements.txt
 ```
+
 ### 4. Create a .env file in the backend directory and add your OpenAI API key:
+
 ```bash
 touch .env
 ```
+
 ```bash
 OPENAI_API_KEY=your_openai_api_key
 ```
+
 ### 5.run the backend
+
 ```bash
 uvicorn main:app --reload --port 8000
 ```
+
 ### 6.start the front end
+
 ```bash
 cd ../frontend/my-app
 npm install
 npm start
 ```
+
 ### 7. if the browser don't open, navigate to.
+
 ```bash
 http://localhost:3000
 ```
