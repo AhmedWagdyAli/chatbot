@@ -15,6 +15,7 @@ This project is a **chatbot application** that allows users to upload documents,
    - Users can ask questions related to the uploaded documents.
    - The chatbot retrieves relevant document chunks and generates context-based answers.
    - Includes a calculator tool for evaluating mathematical expressions.
+   - It Keeps previous chat history but in json file and retireved by session_id.. this would be enhanced in real life situation and transferred to a database and reterieved by chat_session_id and User_id.
 
 ---
 
