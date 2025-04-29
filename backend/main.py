@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from langchain.chains import RetrievalQA
 from langchain.agents import initialize_agent, Tool
-from langchain.llms import OpenAI
+from langchain_community.llms import OpenAI
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 from dotenv import load_dotenv

@@ -1,7 +1,7 @@
 import os
 import shutil
 from fastapi import UploadFile
-from langchain.document_loaders import TextLoader, PyMuPDFLoader
+from langchain_community.document_loaders import TextLoader, PyMuPDFLoader
 
 UPLOAD_DIR = "./uploads"
 

@@ -8,3 +8,4 @@ pydantic
 pymupdf
 tiktoken
 langchain-community
+langchain-openai
